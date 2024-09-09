@@ -6,29 +6,8 @@
             body { font-family: monospace }
         </style>
         <title>Animated ASCII 1</title>
-        <script>
-            const getFrames = (frameData, frameLength) => {
-                const frames = [];
-                while(frameData) {
-                    frames.push(frameData.slice(0, frameLength));
-                    frameData = frameData.slice(frameLength);
-                }
-                return frames;
-            };
-
-            const aaToVideoElement = (aa) => {
-                const [ version, fps, frameLength, ...data ] = aa.split(':');
-                const frames = getFrames(data.join(':'), frameLength);
-                const videoContainer = document.createElement('pre');
-                videoContainer.textContent = frames[0];
-                let count = 0;
-                window.setInterval(
-                    () => videoContainer.textContent = frames[count=(count+1)%frames.length],
-                    1000 / Math.min(60, fps)
-                );
-                return videoContainer;
-            }
-
+        <script type="module">
+            import aaToVideoElement from './aa.js';
             window.addEventListener(
                 'load', 
                 () => document.querySelectorAll('.aa1').forEach(
@@ -39,7 +18,7 @@
     </head>
     <body>
         <p>Hola</p>
-    <span class="aa1">AA1:3:5:12
+    <span class="aa1">AA1.3.5.12
 3423
 4134
 1241
@@ -74,7 +53,6 @@
             </p>
         </form>
         <div>
-      
             ░▒▓│┤╣║╗╝┐└┴┬├─┼╚╔╩╦╠═╬┘┌█▄▀¯≡‗■
         </div>
     </body>
