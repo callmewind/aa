@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+        <style>
+            body { font-family: monospace }
+        </style>
+        <title>Animated ASCII 1</title>
+        <script>
+            const getFrames = (frameData, frameLength) => {
+                const frames = [];
+                while(frameData) {
+                    frames.push(frameData.slice(0, frameLength));
+                    frameData = frameData.slice(frameLength);
+                }
+                return frames;
+            };
+
+            const aaToVideoElement = (aa) => {
+                const [ version, fps, frameLength, ...data ] = aa.split(':');
+                const frames = getFrames(data.join(':'), frameLength);
+                const videoContainer = document.createElement('pre');
+                videoContainer.textContent = frames[0];
+                let count = 0;
+                window.setInterval(
+                    () => videoContainer.textContent = frames[count=(count+1)%frames.length],
+                    1000 / Math.min(60, fps)
+                );
+                return videoContainer;
+            }
+
+            window.addEventListener(
+                'load', 
+                () => document.querySelectorAll('.aa1').forEach(
+                    (aa1) => aa1.replaceWith(aaToVideoElement(aa1.textContent))
+                )
+            );
+        </script>
+    </head>
+    <body>
+        <p>Hola</p>
+    <span class="aa1">AA1:3:5:12
+3423
+4134
+1241
+23</span>
+        <h2>Editor</h2>
+        <form>
+            <fieldset>
+                <legend>General</legend>
+                <label>
+                    Frames per second
+                    <input type="number" step="1" min="1" max="60" value="3">
+                </label>
+                <label>
+                    Frame size
+                    <input type="number" step="1" min="1" value="5">
+                </label>
+            </fieldset>
+            <p>
+                <label>
+                    Current frame
+                    <input type="range" min="0" max="3" value="1" step="1">
+                </label>
+                <button type="button">Delete</button>
+                <button>Clone after</button>
+                <button>Clone before</button>
+            </p>
+            <p>
+                <label>
+                    Frame data
+                    <textarea></textarea>
+                </label>
+            </p>
+        </form>
+        <div>
+      
+            ░▒▓│┤╣║╗╝┐└┴┬├─┼╚╔╩╦╠═╬┘┌█▄▀¯≡‗■
+        </div>
+    </body>
+</html>
