@@ -7,39 +7,39 @@
         </style>
         <title>Animated ASCII 1</title>
         <script type="module">
-            import aaToVideoElement from './aa.js';
-            window.addEventListener(
-                'load', 
-                () => document.querySelectorAll('.aa1').forEach(
-                    (aa1) => aa1.replaceWith(aaToVideoElement(aa1.textContent))
-                )
-            );
+            import { aaToVideoElement } from './aa.js';
+            import { initEditor } from './aaeditor.js';
+            const aa1 = document.querySelector('.aa1');
+            initEditor(aa1.textContent);
+            aa1.replaceWith(aaToVideoElement(aa1.textContent));
         </script>
     </head>
     <body>
         <p>Hola</p>
-    <span class="aa1">AA1.3.5.12
+        <span class="viewer">
+            <span class="aa1">AA1.3.5.12
 3423
 4134
 1241
 23</span>
+            </span>
         <h2>Editor</h2>
         <form>
             <fieldset>
                 <legend>General</legend>
                 <label>
                     Frames per second
-                    <input type="number" step="1" min="1" max="60" value="3">
+                    <input type="number" step="1" min="1" max="60" value="1" id="fps">
                 </label>
                 <label>
-                    Frame size
-                    <input type="number" step="1" min="1" value="5">
+                    Frame length
+                    <input type="number" step="1" min="1" value="1"  id="frameLength">
                 </label>
             </fieldset>
             <p>
                 <label>
                     Current frame
-                    <input type="range" min="0" max="3" value="1" step="1">
+                    <input type="range" min="0" max="0" value="0" step="1" id="currentFrame">
                 </label>
                 <button type="button">Delete</button>
                 <button>Clone after</button>
@@ -48,7 +48,7 @@
             <p>
                 <label>
                     Frame data
-                    <textarea></textarea>
+                    <textarea id="frameData"></textarea>
                 </label>
             </p>
         </form>
